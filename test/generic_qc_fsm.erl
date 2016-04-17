@@ -163,7 +163,7 @@ prop(FI_enabledP, VerboseP) ->
                 faulterl_nif:poke("bc_fi_enabled", 0, <<0:8/native>>, false),
                 [catch erlang:garbage_collect(Pid) || Pid <- erlang:processes()],
 
-                {Ta, Tb, Tc} = now(),
+                {Ta, Tb, Tc} = os:timestamp(),
                 TestDir = ?TEST_DIR ++ lists:flatten(io_lib:format(".~w.~w.~w", [Ta, Tb, Tc])),
                 ok = file:make_dir(TestDir),
                 Env = [{parameter_test_dir, TestDir}],
@@ -443,7 +443,7 @@ fold_all(H) ->
                 [{K,V}|Acc]
         end,
     io:format(user, "<f", []),
-    ID = now(),
+    ID = os:timestamp(),
     event_logger:event({fold, start, ID}),
     case bitcask:fold(H, F, []) of
         {error, _} ->

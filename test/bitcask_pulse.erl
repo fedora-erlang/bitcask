@@ -276,7 +276,7 @@ host() ->
 
 %% Generate a most likely unique node name
 unique_name() ->
-  {A, B, C} = erlang:now(),
+  {A, B, C} = os:timestamp(),
   list_to_atom(lists:concat([integer_to_list(A), "-",
                              integer_to_list(B), "-",
                              integer_to_list(C)])).
@@ -1021,7 +1021,7 @@ custom_shrink(CE=[_,Seed|_], [C|Cs], Repeat) ->
   end.
 
 check_many(C, N) ->
-  check_many(erlang:now(), C, N).
+  check_many(os:timestamp(), C, N).
 
 check_many(_, _, 0) -> true;
 check_many(Seed, C0, N) ->
@@ -1037,7 +1037,7 @@ mk_counterexample(CE = [Cmds, _Seed]) when is_list(Cmds) ->
   CE;
 mk_counterexample(Cmds) ->
   S = state_after(?MODULE, Cmds),
-  [Cmds, erlang:now(),
+  [Cmds, os:timestamp(),
    [ {0, []} | [ {I, []}
                  || I <- lists:seq(1, length(S#state.readers)) ] ]
    ++ [ {errors, []}, {events, []} ] ].
@@ -1047,7 +1047,7 @@ mk_counterexample(Cmds, Seed) ->
   [Cmds, Seed, Conj].
 
 foo() ->
-  erlang:now().
+  os:timestamp().
 
 %% Helper functions
 fold(F, X) ->
