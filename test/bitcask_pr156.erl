@@ -136,12 +136,12 @@ check_no_tombstones(Ref, Good) ->
     end.
 
 make_merge_txt(Dir, Seed, Probability) ->
-    random:seed(Seed),
+    rand:seed(exsplus, Seed),
     case filelib:is_dir(Dir) of
         true ->
             DataFiles = filelib:wildcard("*.data", Dir),
             {ok, FH} = file:open(Dir ++ "/merge.txt", [write]),
-            [case random:uniform(100) < Probability of
+            [case rand:uniform(100) < Probability of
                  true ->
                      io:format(FH, "~s\n", [DF]);
                  false ->
